@@ -20,18 +20,14 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable()) // For simplicity in this demo, but Requirements say enabled. Wait. User said
-                                          // "CSRF enabled".
-                // Re-enabling CSRF is tricky with simple forms if not handled locally by
-                // Thymeleaf automatically. Thymeleaf handles it.
-                // I will enable it properly.
-                .csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**")) // Just in case, though using MySQL
+        http
+                .csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**"))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/register", "/register/**", "/login", "/css/**", "/js/**", "/images/**", "/",
                                 "/home", "/book/**", "/books")
                         .permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/cart/**", "/checkout/**", "/order/**", "/profile/**").authenticated()
+                        .requestMatchers("/cart/**", "/checkout/**", "/order/**", "/profile/**", "/orders").authenticated()
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/login")
