@@ -1,0 +1,24 @@
+<nav xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <div class="brand">
+        <a th:href="@{/}" style="font-size: 1.5rem; margin-left: 0;">📚 Bookstore</a>
+    </div>
+    <div class="menu">
+        <a th:href="@{/books}">Browse Books</a>
+        
+        <span sec:authorize="hasRole('ADMIN')">
+            <a th:href="@{/admin/books}">Manage Books</a>
+            <a th:href="@{/admin/dashboard}">Dashboard</a>
+        </span>
+        
+        <span sec:authorize="isAuthenticated()">
+            <a th:href="@{/cart}">Cart</a>
+            <a th:href="@{/orders}">My Orders</a>
+            <a th:href="@{/logout}" onclick="return confirm('Logout?');">Logout</a>
+        </span>
+        
+        <span sec:authorize="isAnonymous()">
+            <a th:href="@{/login}">Login</a>
+            <a th:href="@{/register}">Register</a>
+        </span>
+    </div>
+</nav>
